@@ -18,18 +18,26 @@
   </div>
 
   <script>
-    document.getElementById("messageForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const progressBar = document.getElementById("progressBar");
-      progressBar.style.width = "0";
-      progressBar.offsetHeight; // Trigger reflow to reset animation
-      progressBar.style.width = "100%";
-
-      setTimeout(() => {
-        document.querySelector(".container").innerHTML = "<h2>I've heard you...</h2>";
-      }, 2000);
+document.getElementById("messageForm").addEventListener("submit", async function(event) {
+    event.preventDefault();
+    const message = document.getElementById("messageInput").value;
+    const progressBar = document.getElementById("progressBar");
+    
+    progressBar.style.width = "0";
+    progressBar.offsetHeight; // Trigger reflow to reset animation
+    progressBar.style.width = "100%";
+    
+    await fetch("https://t-proxy.p-b75.workers.dev/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
     });
+    
+    setTimeout(() => {
+        document.querySelector(".container").innerHTML = "<h2>I've heard you...</h2>";
+    }, 2000);
+});
+
   </script>
 </body>
 </html>
