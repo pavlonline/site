@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Experimental Site</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Send me a message</h1>
+    <form id="messageForm">
+      <input type="text" id="messageInput" name="message" maxlength="1000" required placeholder="Enter your message...">
+      <br>
+      <button type="submit">Send</button>
+      <div id="progressBar" class="progress-bar"></div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("messageForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = "0";
+      progressBar.offsetHeight; // Trigger reflow to reset animation
+      progressBar.style.width = "100%";
+
+      setTimeout(() => {
+        document.querySelector(".container").innerHTML = "<h2>I've heard you...</h2>";
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
