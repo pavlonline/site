@@ -20,21 +20,34 @@
   <script>
 document.getElementById("messageForm").addEventListener("submit", async function(event) {
     event.preventDefault();
-    const message = document.getElementById("messageInput").value;
+    const messageInput = document.getElementById("messageInput");
     const progressBar = document.getElementById("progressBar");
+    const container = document.querySelector(".container");
+    
+    if (!messageInput.value.trim()) {
+        return;
+    }
     
     progressBar.style.width = "0";
-    progressBar.offsetHeight; // Trigger reflow to reset animation
+    progressBar.offsetHeight;
     progressBar.style.width = "100%";
     
-    await fetch("https://t-proxy.p-b75.workers.dev/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
-    });
+    try {
+        const response = await fetch("https://t-proxy.p-b75.workers.dev/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: messageInput.value.trim() })
+        });
+        
+        if (!response.ok) {
+            throw new Error("Failed to send message");
+        }
+    } catch (error) {
+        console.error(error);
+    }
     
     setTimeout(() => {
-        document.querySelector(".container").innerHTML = "<h2>I've heard you...</h2>";
+        container.innerHTML = "<h2>I've heard you...</h2>";
     }, 2000);
 });
 
