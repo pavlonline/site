@@ -10,7 +10,7 @@
   <div class="container">
     <h1>Send me a message</h1>
     <form id="messageForm">
-      <input type="text" id="messageInput" name="message" maxlength="1000" required placeholder="Enter your message...">
+      <input type="text" id="messageInput" placeholder="Enter your message..." required>
       <br>
       <button type="submit">Send</button>
       <div id="progressBar" class="progress-bar"></div>
@@ -18,39 +18,38 @@
   </div>
 
   <script>
-document.getElementById("messageForm").addEventListener("submit", async function(event) {
-    event.preventDefault();
-    const messageInput = document.getElementById("messageInput");
-    const progressBar = document.getElementById("progressBar");
-    const container = document.querySelector(".container");
-    
-    if (!messageInput.value.trim()) {
-        return;
-    }
-    
-    progressBar.style.width = "0";
-    progressBar.offsetHeight;
-    progressBar.style.width = "100%";
-    
-    try {
-        const response = await fetch("https://t-proxy.p-b75.workers.dev/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: messageInput.value.trim() })
-        });
-        
-        if (!response.ok) {
-            throw new Error("Failed to send message");
-        }
-    } catch (error) {
-        console.error(error);
-    }
-    
-    setTimeout(() => {
-        container.innerHTML = "<h2>I've heard you...</h2>";
-    }, 2000);
-});
-
+    document.getElementById("messageForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const messageInput = document.getElementById("messageInput");
+      const progressBar = document.getElementById("progressBar");
+      const container = document.querySelector(".container");
+      
+      if (!messageInput.value.trim()) {
+          return;
+      }
+      
+      progressBar.style.width = "0";
+      progressBar.offsetHeight;
+      progressBar.style.width = "100%";
+      
+      try {
+          const response = await fetch("https://t-proxy.p-b75.workers.dev/", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message: messageInput.value.trim() })
+          });
+          
+          if (!response.ok) {
+              throw new Error("Failed to send message");
+          }
+      } catch (error) {
+          console.error(error);
+      }
+      
+      setTimeout(() => {
+          container.innerHTML = "<h2 style='color: white;'>I've heard you...</h2>";
+      }, 2000);
+    });
   </script>
 </body>
 </html>
